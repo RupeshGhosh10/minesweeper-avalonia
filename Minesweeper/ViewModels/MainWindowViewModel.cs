@@ -1,6 +1,14 @@
-﻿namespace Minesweeper.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class MainWindowViewModel : ViewModelBase
+namespace Minesweeper.ViewModels;
+
+public partial class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    [ObservableProperty] 
+    private ViewModelBase _content;
+
+    public MainWindowViewModel()
+    {
+        _content = new StartViewModel();
+    }
 }

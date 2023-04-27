@@ -4,6 +4,8 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Minesweeper/App.axaml" value="Minesweeper/Minesweeper.csproj" />
+        <entry key="Minesweeper/Views/MainWindow.axaml" value="Minesweeper/Minesweeper.csproj" />
+        <entry key="Minesweeper/Views/StartView.axaml" value="Minesweeper/Minesweeper.csproj" />
       </map>
     </option>
   </component>
