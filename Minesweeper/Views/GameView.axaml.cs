@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Minesweeper.Views;
 
-public partial class StartView : UserControl
+public partial class GameView : UserControl
 {
-    public StartView()
+    public GameView()
     {
         InitializeComponent();
     }
