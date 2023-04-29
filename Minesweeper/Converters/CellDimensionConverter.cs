@@ -5,15 +5,15 @@ using Avalonia.Data.Converters;
 
 namespace Minesweeper.Converters;
 
-public class BoardDimensionConverter : IValueConverter
+internal class CellDimensionConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is int cellDimensionCount)
         {
-            return cellDimensionCount * 26;
+            return 420 / (double)(cellDimensionCount - 1);
         }
-        
+
         return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
     }
 
