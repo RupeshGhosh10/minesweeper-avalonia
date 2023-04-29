@@ -474,6 +474,7 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk
+*.lnkxs
 
-.idea
+.idea/*
+.idea/.idea.Minesweeper/.idea
