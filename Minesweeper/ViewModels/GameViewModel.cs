@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Minesweeper.Models;
 
 namespace Minesweeper.ViewModels;
 
@@ -15,25 +13,25 @@ public partial class GameViewModel : ViewModelBase
     }
 
     [ObservableProperty] 
-    private ObservableCollection<Cell> _cells;
+    private ObservableCollection<CellViewModel> _cells;
 
-    [ObservableProperty]
+    [ObservableProperty] 
     private int _rowCount;
-    
-    [ObservableProperty]
+
+    [ObservableProperty] 
     private int _columnCount;
-    
-    private static ObservableCollection<Cell> GenerateCells(int row, int column)
+
+    private static ObservableCollection<CellViewModel> GenerateCells(int row, int column)
     {
-        var cells = new ObservableCollection<Cell>();
+        var cells = new ObservableCollection<CellViewModel>();
         for (var i = 0; i < row; i++)
         {
             for (var j = 0; j < column; j++)
             {
-                cells.Add(new Cell { Row = i, Column = j });
+                cells.Add(new CellViewModel());
             }
         }
-        
+
         return cells;
     }
 }

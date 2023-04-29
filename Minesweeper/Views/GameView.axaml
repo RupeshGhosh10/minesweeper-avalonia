@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vw="clr-namespace:Minesweeper.ViewModels"
+             xmlns:v="clr-namespace:Minesweeper.Views"
              xmlns:c="clr-namespace:Minesweeper.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Minesweeper.Views.GameView"
@@ -42,12 +43,9 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Height="{Binding $parent[UserControl].DataContext.RowCount, Converter={StaticResource CellDimensionConverter}}"
-                                Width="{Binding $parent[UserControl].DataContext.ColumnCount, Converter={StaticResource CellDimensionConverter}}"
-                                CornerRadius="0"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                Background="LightGray"/>
+                        <v:CellView DataContext="{Binding}"
+                                    Height="{Binding $parent[UserControl].DataContext.RowCount, Converter={StaticResource CellDimensionConverter}}"
+                                    Width="{Binding $parent[UserControl].DataContext.ColumnCount, Converter={StaticResource CellDimensionConverter}}}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
