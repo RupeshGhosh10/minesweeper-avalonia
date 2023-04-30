@@ -1,6 +1,10 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.DependencyInjection;
+using Minesweeper.Services;
+using Minesweeper.Services.Interfaces;
 using Minesweeper.ViewModels;
 using Minesweeper.Views;
 
@@ -10,6 +14,7 @@ public partial class App : Application
 {
     public override void Initialize()
     {
+        Services = ConfigureServices();
         AvaloniaXamlLoader.Load(this);
     }
 
@@ -24,5 +29,18 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+    
+    public new static App Current => (App)Application.Current!;
+    
+    public IServiceProvider Services { get; private set; } = null!;
+
+    private static IServiceProvider ConfigureServices()
+    {
+        var services = new ServiceCollection();
+
+        services.AddSingleton<IGameService, GameService>();
+
+        return services.BuildServiceProvider();
     }
 }

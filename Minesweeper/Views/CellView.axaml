@@ -19,7 +19,7 @@
             FontSize="14"
             FontWeight="SemiBold"
             Classes.IsClicked="{Binding IsClicked}">
-        
+
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter">
                 <Style.Setters>

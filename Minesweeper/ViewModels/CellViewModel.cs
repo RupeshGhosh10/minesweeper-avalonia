@@ -8,13 +8,13 @@ public partial class CellViewModel : ViewModelBase
 {
     public CellViewModel(int row, int column, bool isMine, IRelayCommand<CellViewModel> clickCommand)
     {
-        _cell = new Cell(row, column, isMine);
+        Cell = new Cell(row, column, isMine);
         ClickCommand = clickCommand;
         Text = "";
         IsClicked = false;
     }
 
-    private Cell _cell;
+    public Cell Cell { get; init; }
 
     [ObservableProperty]
     private string _text;

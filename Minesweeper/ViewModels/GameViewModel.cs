@@ -30,14 +30,15 @@ public partial class GameViewModel : ViewModelBase
 
     private static Random _random = null!;
 
-    private static void CellClick(CellViewModel cellViewModel)
+    private void CellClick(CellViewModel cellViewModel)
     {
         if (cellViewModel.IsClicked) return;
         
         cellViewModel.IsClicked = true;
+        cellViewModel.Text = cellViewModel.Cell.IsMine ? "B" : "";
     }
 
-    private static ObservableCollection<CellViewModel> GenerateCells(int row, int column)
+    private ObservableCollection<CellViewModel> GenerateCells(int row, int column)
     {
         var noOfMines = 40;
         var totalCells = row * column;
@@ -55,7 +56,7 @@ public partial class GameViewModel : ViewModelBase
         return cells;
     }
 
-    private static bool IsMine(ref int noOfMines, ref int totalCells)
+    private bool IsMine(ref int noOfMines, ref int totalCells)
     {
         var isMine = _random.Next(1, totalCells) <= noOfMines;
         if (isMine) noOfMines -= 1;
