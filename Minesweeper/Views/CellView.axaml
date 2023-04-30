@@ -15,9 +15,6 @@
             Background="LightGray"
             Command="{Binding ClickCommand}"
             CommandParameter="{Binding}"
-            Content="{Binding Text}"
-            FontSize="14"
-            FontWeight="SemiBold"
             Classes.IsClicked="{Binding IsClicked}">
 
         <Button.Styles>
@@ -31,10 +28,13 @@
             <Style Selector="Button.IsClicked /template/ ContentPresenter">
                 <Style.Setters>
                     <Setter Property="Background" Value="White" />
-                    <Setter Property="Content" Value="{Binding Text}" />
                 </Style.Setters>
             </Style>
         </Button.Styles>
+
+        <TextBlock Text="{Binding Text}" IsVisible="{Binding IsClicked}"
+                   FontSize="14"
+                   FontWeight="SemiBold" />
 
     </Button>
 

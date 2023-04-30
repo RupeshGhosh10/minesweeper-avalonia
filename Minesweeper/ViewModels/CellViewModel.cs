@@ -1,26 +1,28 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Minesweeper.Models;
 
 namespace Minesweeper.ViewModels;
 
 public partial class CellViewModel : ViewModelBase
 {
-    public CellViewModel(int row, int column, bool isMine, IRelayCommand<CellViewModel> clickCommand)
+    public CellViewModel(int row, int column, IRelayCommand<CellViewModel> clickCommand)
     {
-        Cell = new Cell(row, column, isMine);
+        Row = row;
+        Column = column;
         ClickCommand = clickCommand;
-        Text = "";
-        IsClicked = false;
     }
 
-    public Cell Cell { get; init; }
+    public int Row { get; init; }
 
-    [ObservableProperty]
-    private string _text;
+    public int Column { get; init; }
 
-    [ObservableProperty]
-    private bool _isClicked;
+    public bool IsMine { get; set; }
     
+    public int NearByMines { get; set; }
+
+    public string Text => IsMine ? "B" : $"{NearByMines}";
+
+    [ObservableProperty] private bool _isClicked;
+
     public IRelayCommand<CellViewModel> ClickCommand { get; init; }
 }
