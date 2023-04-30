@@ -46,8 +46,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <v:CellView DataContext="{Binding}"
-                                    Height="{Binding $parent[UserControl].DataContext.RowCount, Converter={StaticResource CellDimensionConverter}, ConverterParameter={StaticResource BoardDimension}}"
-                                    Width="{Binding $parent[UserControl].DataContext.ColumnCount, Converter={StaticResource CellDimensionConverter}, ConverterParameter={StaticResource BoardDimension}}" />
+                                    Height="{Binding $parent[UserControl].DataContext.RowCount, 
+                                        Converter={StaticResource CellDimensionConverter}, 
+                                        ConverterParameter={StaticResource BoardDimension}}"
+                                    Width="{Binding $parent[UserControl].DataContext.ColumnCount, 
+                                        Converter={StaticResource CellDimensionConverter}, 
+                                        ConverterParameter={StaticResource BoardDimension}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

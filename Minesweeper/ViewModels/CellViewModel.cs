@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Minesweeper.Models;
 
 namespace Minesweeper.ViewModels;
 
@@ -7,21 +8,19 @@ public partial class CellViewModel : ViewModelBase
 {
     public CellViewModel(int row, int column, bool isMine, IRelayCommand<CellViewModel> clickCommand)
     {
-        _row = row;
-        _column = column;
-        _isMine = isMine;
+        _cell = new Cell(row, column, isMine);
         ClickCommand = clickCommand;
         Text = "";
+        IsClicked = false;
     }
 
-    private int _row;
-
-    private int _column;
-
-    private bool _isMine;
+    private Cell _cell;
 
     [ObservableProperty]
     private string _text;
+
+    [ObservableProperty]
+    private bool _isClicked;
     
     public IRelayCommand<CellViewModel> ClickCommand { get; init; }
 }

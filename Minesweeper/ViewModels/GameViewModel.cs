@@ -11,6 +11,7 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
+        GameOver = false;
         _random = new Random();
         Cells = GenerateCells(RowCount, ColumnCount);
     }
@@ -24,13 +25,17 @@ public partial class GameViewModel : ViewModelBase
     [ObservableProperty] 
     private int _columnCount;
 
+    [ObservableProperty]
+    private bool _gameOver;
+
     private static Random _random = null!;
 
     private static void CellClick(CellViewModel cellViewModel)
     {
-        _random = new Random();
+        if (cellViewModel.IsClicked) return;
+        
+        cellViewModel.IsClicked = true;
     }
-
 
     private static ObservableCollection<CellViewModel> GenerateCells(int row, int column)
     {

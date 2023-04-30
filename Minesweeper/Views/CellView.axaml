@@ -16,13 +16,23 @@
             Command="{Binding ClickCommand}"
             CommandParameter="{Binding}"
             Content="{Binding Text}"
-            FontSize="7">
-
+            FontSize="14"
+            FontWeight="SemiBold"
+            Classes.IsClicked="{Binding IsClicked}">
+        
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="DarkGray" />
-                <Setter Property="BorderBrush" Value="Black" />
-                <Setter Property="BorderThickness" Value="1" />
+                <Style.Setters>
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </Style.Setters>
+            </Style>
+            <Style Selector="Button.IsClicked /template/ ContentPresenter">
+                <Style.Setters>
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Content" Value="{Binding Text}" />
+                </Style.Setters>
             </Style>
         </Button.Styles>
 
