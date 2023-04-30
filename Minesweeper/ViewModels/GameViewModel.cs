@@ -32,15 +32,24 @@ public partial class GameViewModel : ViewModelBase
         if (cellViewModel.IsClicked) return;
 
         cellViewModel.IsClicked = true;
-        
+
+        if (cellViewModel.NearByMines == 0)
+        {
+            FloodFillCells(cellViewModel);
+        }
+    }
+
+    private void FloodFillCells(CellViewModel cellViewModel)
+    {
         var x = cellViewModel.Row;
         var y = cellViewModel.Column;
+
         for (var i = x - 1; i <= x + 1; i++)
         {
             for (var j = y - 1; j <= y + 1; j++)
             {
                 var neighbourCell = SelectCell(i, j);
-                if (neighbourCell is not null && !neighbourCell.IsMine && neighbourCell.NearByMines == 0)
+                if (neighbourCell is { IsMine: false, IsClicked: false })
                 {
                     neighbourCell.ClickCommand.Execute(neighbourCell);
                 }
