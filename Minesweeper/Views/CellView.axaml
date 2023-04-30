@@ -3,9 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vw="clr-namespace:Minesweeper.ViewModels"
+             xmlns:c="clr-namespace:Minesweeper.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Minesweeper.Views.CellView"
              x:DataType="vw:CellViewModel">
+
+    <UserControl.Resources>
+        <c:CellTextConverter x:Key="CellTextConverter" />
+    </UserControl.Resources>
 
     <Button Height="{Binding $parent[UserControl].Height}"
             Width="{Binding $parent[UserControl].Width}"
@@ -32,9 +37,11 @@
             </Style>
         </Button.Styles>
 
-        <TextBlock Text="{Binding Text}" IsVisible="{Binding IsClicked}"
+        <TextBlock IsVisible="{Binding IsClicked}"
+                   Text="{Binding ., Converter={StaticResource CellTextConverter}}"
                    FontSize="14"
-                   FontWeight="SemiBold" />
+                   FontWeight="SemiBold"
+                   Classes.IsMine="{Binding IsMine}" />
 
     </Button>
 

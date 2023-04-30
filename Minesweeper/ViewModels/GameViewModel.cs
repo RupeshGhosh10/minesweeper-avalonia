@@ -14,8 +14,8 @@ public partial class GameViewModel : ViewModelBase
         ColumnCount = 16;
         _random = new Random();
         GenerateCells(RowCount, ColumnCount);
-        PopulateMine();
-        PopulateNearbyNumber();
+        PopulateMines();
+        PopulateNearbyNumbers();
         Cells = new ObservableCollection<CellViewModel>(Cells);
     }
 
@@ -32,6 +32,20 @@ public partial class GameViewModel : ViewModelBase
         if (cellViewModel.IsClicked) return;
 
         cellViewModel.IsClicked = true;
+        
+        var x = cellViewModel.Row;
+        var y = cellViewModel.Column;
+        for (var i = x - 1; i <= x + 1; i++)
+        {
+            for (var j = y - 1; j <= y + 1; j++)
+            {
+                var neighbourCell = SelectCell(i, j);
+                if (neighbourCell is not null && !neighbourCell.IsMine && neighbourCell.NearByMines == 0)
+                {
+                    neighbourCell.ClickCommand.Execute(neighbourCell);
+                }
+            }
+        }
     }
 
     private CellViewModel? SelectCell(int row, int column) =>
@@ -52,7 +66,7 @@ public partial class GameViewModel : ViewModelBase
         Cells = cells;
     }
 
-    private void PopulateMine()
+    private void PopulateMines()
     {
         var noOfMines = 40;
         var totalCells = RowCount * ColumnCount;
@@ -67,7 +81,7 @@ public partial class GameViewModel : ViewModelBase
         }
     }
 
-    private void PopulateNearbyNumber()
+    private void PopulateNearbyNumbers()
     {
         for (var i = 1; i <= RowCount; i++)
         {

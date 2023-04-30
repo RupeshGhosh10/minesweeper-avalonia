@@ -20,8 +20,6 @@ public partial class CellViewModel : ViewModelBase
     
     public int NearByMines { get; set; }
 
-    public string Text => IsMine ? "B" : $"{NearByMines}";
-
     [ObservableProperty] private bool _isClicked;
 
     public IRelayCommand<CellViewModel> ClickCommand { get; init; }
