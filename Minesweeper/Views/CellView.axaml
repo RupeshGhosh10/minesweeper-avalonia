@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vw="clr-namespace:Minesweeper.ViewModels"
              xmlns:c="clr-namespace:Minesweeper.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Minesweeper.Views.CellView"
              x:DataType="vw:CellViewModel">
@@ -12,14 +14,13 @@
         <c:CellTextConverter x:Key="CellTextConverter" />
     </UserControl.Resources>
 
-    <Button Height="{Binding $parent[UserControl].Height}"
+    <Button x:Name="CellButton"
+            Height="{Binding $parent[UserControl].Height}"
             Width="{Binding $parent[UserControl].Width}"
             CornerRadius="0"
             BorderBrush="Black"
             BorderThickness="1"
             Background="LightGray"
-            Command="{Binding ClickCommand}"
-            CommandParameter="{Binding}"
             Classes.IsClicked="{Binding IsClicked}">
 
         <Button.Styles>
@@ -36,6 +37,14 @@
                 </Style.Setters>
             </Style>
         </Button.Styles>
+        
+        <!-- <i:Interaction.Behaviors> -->
+        <!--     <ia:EventTriggerBehavior EventName="PointerPressed"> -->
+        <!--         <ia:InvokeCommandAction -->
+        <!--             Command="{Binding ClickCommand}" -->
+        <!--             CommandParameter="{Binding}"/> -->
+        <!--     </ia:EventTriggerBehavior> -->
+        <!-- </i:Interaction.Behaviors> -->
 
         <TextBlock IsVisible="{Binding IsClicked}"
                    Text="{Binding ., Converter={StaticResource CellTextConverter}}"
