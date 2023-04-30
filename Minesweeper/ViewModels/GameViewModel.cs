@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Minesweeper.Helper;
 
 namespace Minesweeper.ViewModels;
 
@@ -12,7 +13,6 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
-        _random = new Random();
         GenerateCells(RowCount, ColumnCount);
         PopulateMines();
         PopulateNearbyNumbers();
@@ -24,8 +24,6 @@ public partial class GameViewModel : ViewModelBase
     [ObservableProperty] private int _rowCount;
 
     [ObservableProperty] private int _columnCount;
-
-    private static Random _random = null!;
 
     private void CellClick(CellViewModel cellViewModel)
     {
@@ -119,7 +117,7 @@ public partial class GameViewModel : ViewModelBase
 
     private bool IsMine(ref int noOfMines, ref int totalCells)
     {
-        var isMine = _random.Next(1, totalCells) <= noOfMines;
+        var isMine = RandomProvider.Random.Next(1, totalCells) <= noOfMines;
         if (isMine) noOfMines -= 1;
         totalCells -= 1;
 
