@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Minesweeper.Helper;
 
 namespace Minesweeper.ViewModels;
 

@@ -26,7 +26,8 @@
             <Button Grid.Column="1"
                     Content="Reset"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center"
+                    Command="{Binding ResetBoardCommand}"/>
             <TextBlock Grid.Column="2"
                        Text="Timer"
                        HorizontalAlignment="Center"

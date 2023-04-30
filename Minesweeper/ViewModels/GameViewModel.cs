@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,9 +12,7 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
-        GenerateCells(RowCount, ColumnCount);
-        PopulateMines();
-        PopulateNearbyNumbers();
+        GenerateBoard();
         Cells = new ObservableCollection<CellViewModel>(Cells);
     }
 
@@ -24,6 +21,16 @@ public partial class GameViewModel : ViewModelBase
     [ObservableProperty] private int _rowCount;
 
     [ObservableProperty] private int _columnCount;
+
+    [RelayCommand]
+    private void ResetBoard() => GenerateBoard();
+
+    private void GenerateBoard()
+    {
+        GenerateCells(RowCount, ColumnCount);
+        PopulateMines();
+        PopulateNearbyNumbers();
+    }
 
     private void CellClick(CellViewModel cellViewModel)
     {
@@ -115,7 +122,7 @@ public partial class GameViewModel : ViewModelBase
         return count;
     }
 
-    private bool IsMine(ref int noOfMines, ref int totalCells)
+    private static bool IsMine(ref int noOfMines, ref int totalCells)
     {
         var isMine = RandomProvider.Random.Next(1, totalCells) <= noOfMines;
         if (isMine) noOfMines -= 1;
