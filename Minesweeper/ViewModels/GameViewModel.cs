@@ -22,7 +22,7 @@ public partial class GameViewModel : ViewModelBase
 
     [ObservableProperty] 
     private int _columnCount;
-    
+
     private static Random _random = null!;
 
     private static ObservableCollection<CellViewModel> GenerateCells(int row, int column)
@@ -35,12 +35,7 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 0; j < column; j++)
             {
-                cells.Add(new CellViewModel
-                {
-                    Row = i + 1,
-                    Column = j + 1,
-                    IsMine = IsMine(ref noOfMines, ref totalCells)
-                });
+                cells.Add(new CellViewModel(i + 1, j + 1, IsMine(ref noOfMines, ref totalCells)));
             }
         }
 
@@ -52,7 +47,7 @@ public partial class GameViewModel : ViewModelBase
         var isMine = _random.Next(1, totalCells) <= noOfMines;
         if (isMine) noOfMines -= 1;
         totalCells -= 1;
-        
+
         return isMine;
     }
 }

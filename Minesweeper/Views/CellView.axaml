@@ -12,6 +12,16 @@
             CornerRadius="0"
             BorderBrush="Black"
             BorderThickness="1"
-            Background="LightGray"/>
-    
+            Background="LightGray">
+
+        <Button.Styles>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="DarkGray" />
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
+        </Button.Styles>
+
+    </Button>
+
 </UserControl>
