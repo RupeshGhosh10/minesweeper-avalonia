@@ -1,6 +1,6 @@
 namespace Minesweeper.ViewModels;
 
-public partial class CellViewModel
+public partial class CellViewModel : ViewModelBase
 {
     public int Row { get; init; }
 
