@@ -9,9 +9,9 @@ internal class CellDimensionConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is int cellDimensionCount)
+        if (value is int cellDimensionCount && parameter is double boardDimension)
         {
-            return 420 / (double)(cellDimensionCount - 1);
+            return boardDimension / (cellDimensionCount - 0.75);
         }
 
         return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);

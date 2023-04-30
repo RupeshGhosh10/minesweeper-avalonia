@@ -5,12 +5,14 @@
              xmlns:vw="clr-namespace:Minesweeper.ViewModels"
              xmlns:v="clr-namespace:Minesweeper.Views"
              xmlns:c="clr-namespace:Minesweeper.Converters"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Minesweeper.Views.GameView"
              x:DataType="vw:GameViewModel">
 
     <UserControl.Resources>
         <c:CellDimensionConverter x:Key="CellDimensionConverter" />
+        <sys:Double x:Key="BoardDimension">420</sys:Double>
     </UserControl.Resources>
 
     <Grid RowDefinitions="*,9*">
@@ -37,15 +39,15 @@
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="{Binding RowCount}"
                                      Columns="{Binding ColumnCount}"
-                                     Height="420"
-                                     Width="420" />
+                                     Height="{StaticResource BoardDimension}"
+                                     Width="{StaticResource BoardDimension}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <v:CellView DataContext="{Binding}"
-                                    Height="{Binding $parent[UserControl].DataContext.RowCount, Converter={StaticResource CellDimensionConverter}}"
-                                    Width="{Binding $parent[UserControl].DataContext.ColumnCount, Converter={StaticResource CellDimensionConverter}}" />
+                                    Height="{Binding $parent[UserControl].DataContext.RowCount, Converter={StaticResource CellDimensionConverter}, ConverterParameter={StaticResource BoardDimension}}"
+                                    Width="{Binding $parent[UserControl].DataContext.ColumnCount, Converter={StaticResource CellDimensionConverter}, ConverterParameter={StaticResource BoardDimension}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
