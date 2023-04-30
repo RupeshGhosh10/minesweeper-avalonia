@@ -12,7 +12,11 @@
             CornerRadius="0"
             BorderBrush="Black"
             BorderThickness="1"
-            Background="LightGray">
+            Background="LightGray"
+            Command="{Binding ClickCommand}"
+            CommandParameter="{Binding}"
+            Content="{Binding Text}"
+            FontSize="7">
 
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter">

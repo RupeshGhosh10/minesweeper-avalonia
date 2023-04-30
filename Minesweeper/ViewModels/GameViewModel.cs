@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Minesweeper.ViewModels;
 
@@ -25,6 +26,12 @@ public partial class GameViewModel : ViewModelBase
 
     private static Random _random = null!;
 
+    private static void CellClick(CellViewModel cellViewModel)
+    {
+        _random = new Random();
+    }
+
+
     private static ObservableCollection<CellViewModel> GenerateCells(int row, int column)
     {
         var noOfMines = 40;
@@ -35,7 +42,8 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 0; j < column; j++)
             {
-                cells.Add(new CellViewModel(i + 1, j + 1, IsMine(ref noOfMines, ref totalCells)));
+                cells.Add(new CellViewModel(i + 1, j + 1, IsMine(ref noOfMines, ref totalCells),
+                    new RelayCommand<CellViewModel>(CellClick!)));
             }
         }
 
