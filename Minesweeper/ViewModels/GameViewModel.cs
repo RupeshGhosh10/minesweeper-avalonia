@@ -14,15 +14,18 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
+        TotalMines = 3;
         CellViewModels = new ObservableCollection<CellViewModel>();
         GenerateBoard();
     }
 
     [ObservableProperty] private ObservableCollection<CellViewModel> _cellViewModels;
 
-    [ObservableProperty] private int _rowCount;
+    public int RowCount { get; init; }
 
-    [ObservableProperty] private int _columnCount;
+    public int ColumnCount { get; init; }
+
+    public int TotalMines { get; init; }
 
     [ObservableProperty] private GameStatus _gameStatus;
 
@@ -129,7 +132,7 @@ public partial class GameViewModel : ViewModelBase
 
     private void PopulateMines()
     {
-        var noOfMines = 3;
+        var noOfMines = TotalMines;
         var totalCells = RowCount * ColumnCount;
 
         for (var i = 1; i <= RowCount; i++)

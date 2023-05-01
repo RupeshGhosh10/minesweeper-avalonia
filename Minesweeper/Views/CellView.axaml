@@ -6,7 +6,7 @@
              xmlns:c="clr-namespace:Minesweeper.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="27" d:DesignHeight="27"
              x:Class="Minesweeper.Views.CellView"
              x:DataType="vw:CellViewModel">
 

@@ -7,7 +7,7 @@
              xmlns:c="clr-namespace:Minesweeper.Converters"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              xmlns:enum="clr-namespace:Minesweeper.Enums"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="550"
              x:Class="Minesweeper.Views.GameView"
              x:DataType="vw:GameViewModel">
 
@@ -23,7 +23,7 @@
               Margin="0 20 0 0"
               ColumnDefinitions="*,*,*">
             <TextBlock Grid.Column="0"
-                       Text="40"
+                       Text="{Binding TotalMines, StringFormat='Mines left: {0}'}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
             <Button Grid.Column="1"
@@ -63,8 +63,8 @@
         <Grid Grid.Row="1" Margin="10 20 10 10"
               Height="{StaticResource BoardDimension}"
               Width="{StaticResource BoardDimension}"
-              Background="GhostWhite"
-              Opacity="0.6">
+              Background="WhiteSmoke"
+              Opacity="0.7">
             <Grid.IsVisible>
                 <MultiBinding Converter="{x:Static BoolConverters.Or}">
                     <Binding Path="GameStatus"
