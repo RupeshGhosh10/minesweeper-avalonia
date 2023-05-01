@@ -21,6 +21,8 @@
             BorderBrush="Black"
             BorderThickness="1"
             Background="LightGray"
+            Command="{Binding LeftClickCommand}"
+            CommandParameter="{Binding}"
             Classes.IsClicked="{Binding IsClicked}">
 
         <Button.Styles>
@@ -37,17 +39,17 @@
                 </Style.Setters>
             </Style>
         </Button.Styles>
-        
-        <!-- <i:Interaction.Behaviors> -->
-        <!--     <ia:EventTriggerBehavior EventName="PointerPressed"> -->
-        <!--         <ia:InvokeCommandAction -->
-        <!--             Command="{Binding ClickCommand}" -->
-        <!--             CommandParameter="{Binding}"/> -->
-        <!--     </ia:EventTriggerBehavior> -->
-        <!-- </i:Interaction.Behaviors> -->
+
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="PointerPressed">
+                <ia:InvokeCommandAction
+                    Command="{Binding RightClickCommand}"
+                    CommandParameter="{Binding}" />
+            </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
 
         <TextBlock IsVisible="{Binding IsClicked}"
-                   Text="{Binding ., Converter={StaticResource CellTextConverter}}"
+                   Text="{Binding Converter={StaticResource CellTextConverter}}"
                    FontSize="14"
                    FontWeight="SemiBold"
                    Classes.IsMine="{Binding IsMine}" />

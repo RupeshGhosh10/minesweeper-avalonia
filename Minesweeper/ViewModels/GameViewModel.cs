@@ -32,9 +32,10 @@ public partial class GameViewModel : ViewModelBase
         PopulateNearbyNumbers();
     }
 
-    private void CellClick(CellViewModel cellViewModel)
+    private void CellLeftClick(CellViewModel? cellViewModel)
     {
-        if (cellViewModel.IsClicked) return;
+        if (cellViewModel is null || cellViewModel.IsClicked || cellViewModel.IsFlag)
+            return;
 
         cellViewModel.IsClicked = true;
 
@@ -42,6 +43,14 @@ public partial class GameViewModel : ViewModelBase
         {
             FloodFillCells(cellViewModel);
         }
+    }
+
+    private void CellRightClick(CellViewModel? cellViewModel)
+    {
+        if (cellViewModel is null || cellViewModel.IsClicked)
+            return;
+
+        cellViewModel.IsFlag = !cellViewModel.IsFlag;
     }
 
     private void FloodFillCells(CellViewModel cellViewModel)
@@ -56,7 +65,7 @@ public partial class GameViewModel : ViewModelBase
                 var neighbourCell = SelectCell(i, j);
                 if (neighbourCell is { IsMine: false, IsClicked: false })
                 {
-                    neighbourCell.ClickCommand.Execute(neighbourCell);
+                    neighbourCell.LeftClickCommand.Execute(neighbourCell);
                 }
             }
         }
@@ -73,7 +82,9 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 1; j <= column; j++)
             {
-                cells.Add(new CellViewModel(i, j, new RelayCommand<CellViewModel>(CellClick!)));
+                var leftClickCommand = new RelayCommand<CellViewModel>(CellLeftClick);
+                var rightClickCommand = new RelayCommand<CellViewModel>(CellRightClick);
+                cells.Add(new CellViewModel(i, j, leftClickCommand, rightClickCommand));
             }
         }
 

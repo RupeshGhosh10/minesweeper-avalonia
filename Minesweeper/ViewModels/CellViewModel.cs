@@ -5,11 +5,15 @@ namespace Minesweeper.ViewModels;
 
 public partial class CellViewModel : ViewModelBase
 {
-    public CellViewModel(int row, int column, IRelayCommand<CellViewModel> clickCommand)
+    public CellViewModel(int row,
+        int column,
+        IRelayCommand<CellViewModel> leftClickCommand,
+        IRelayCommand<CellViewModel> rightClickCommand)
     {
         Row = row;
         Column = column;
-        ClickCommand = clickCommand;
+        LeftClickCommand = leftClickCommand;
+        RightClickCommand = rightClickCommand;
     }
 
     public int Row { get; init; }
@@ -17,10 +21,14 @@ public partial class CellViewModel : ViewModelBase
     public int Column { get; init; }
 
     public bool IsMine { get; set; }
-    
+
     public int NearByMines { get; set; }
+
+    [ObservableProperty] private bool _isFlag;
 
     [ObservableProperty] private bool _isClicked;
 
-    public IRelayCommand<CellViewModel> ClickCommand { get; init; }
-}
+    public IRelayCommand<CellViewModel> LeftClickCommand { get; init; }
+    
+    public IRelayCommand<CellViewModel> RightClickCommand { get; init; }
+ }
