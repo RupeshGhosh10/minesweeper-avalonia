@@ -21,6 +21,8 @@
             BorderBrush="Black"
             BorderThickness="1"
             Background="LightGray"
+            ToolTip.Tip="Right click to mark flag"
+            ToolTip.ShowDelay="1000"
             Command="{Binding LeftClickCommand}"
             CommandParameter="{Binding}"
             Classes.IsRevealed="{Binding IsRevealed}">
@@ -50,7 +52,7 @@
 
         <Grid>
             <TextBlock IsVisible="{Binding IsRevealed}"
-                       Text="{Binding Converter={StaticResource CellTextConverter}}"
+                       Text="{Binding Cell, Converter={StaticResource CellTextConverter}}"
                        FontSize="14"
                        FontWeight="SemiBold" />
             <TextBlock IsVisible="{Binding IsFlag}"

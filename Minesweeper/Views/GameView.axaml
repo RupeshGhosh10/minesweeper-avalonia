@@ -6,12 +6,14 @@
              xmlns:v="clr-namespace:Minesweeper.Views"
              xmlns:c="clr-namespace:Minesweeper.Converters"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:enum="clr-namespace:Minesweeper.Enums"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Minesweeper.Views.GameView"
              x:DataType="vw:GameViewModel">
 
     <UserControl.Resources>
         <c:CellDimensionConverter x:Key="CellDimensionConverter" />
+        <c:EnumConverter x:Key="EnumConverter" />
         <sys:Double x:Key="BoardDimension">420</sys:Double>
     </UserControl.Resources>
 
@@ -27,7 +29,7 @@
                     Content="Reset"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Command="{Binding ResetBoardCommand}"/>
+                    Command="{Binding ResetBoardCommand}" />
             <TextBlock Grid.Column="2"
                        Text="Timer"
                        HorizontalAlignment="Center"
@@ -56,6 +58,28 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+        </Grid>
+        <Grid Grid.Row="1" Margin="10 20 10 10"
+              Height="{StaticResource BoardDimension}"
+              Width="{StaticResource BoardDimension}"
+              Background="GhostWhite" 
+              Opacity="0.6">
+            <Grid.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                    <Binding Path="GameStatus" 
+                             Converter="{StaticResource EnumConverter}"
+                             ConverterParameter="{x:Static enum:GameStatus.Won}"/>
+                    <Binding Path="GameStatus" 
+                             Converter="{StaticResource EnumConverter}"
+                             ConverterParameter="{x:Static enum:GameStatus.Lost}"/>
+                </MultiBinding>
+            </Grid.IsVisible>
+            <TextBlock Text="Game Over" 
+                       FontWeight="Bold"
+                       FontSize="60"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       ZIndex="100" />
         </Grid>
     </Grid>
 

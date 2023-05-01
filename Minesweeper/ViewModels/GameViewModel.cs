@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Minesweeper.Enums;
 using Minesweeper.Helper;
 
 namespace Minesweeper.ViewModels;
@@ -12,8 +14,8 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
+        CellViewModels = new ObservableCollection<CellViewModel>();
         GenerateBoard();
-        CellViewModels = new ObservableCollection<CellViewModel>(CellViewModels);
     }
 
     [ObservableProperty] private ObservableCollection<CellViewModel> _cellViewModels;
@@ -22,22 +24,26 @@ public partial class GameViewModel : ViewModelBase
 
     [ObservableProperty] private int _columnCount;
 
+    [ObservableProperty] private GameStatus _gameStatus;
+
     [RelayCommand]
     private void ResetBoard() => GenerateBoard();
 
-    private void GenerateBoard()
-    {
-        GenerateCells(RowCount, ColumnCount);
-        PopulateMines();
-        PopulateNearbyNumbers();
-    }
-
     private void CellLeftClick(CellViewModel? cellViewModel)
     {
+        if (GameStatus is GameStatus.NotStarted)
+            GameStatus = GameStatus.InProgress;
+
         if (cellViewModel is null || cellViewModel.IsRevealed || cellViewModel.IsFlag)
             return;
 
         cellViewModel.IsRevealed = true;
+
+        if (cellViewModel.Cell.IsMine)
+        {
+            GameLost();
+            return;
+        }
 
         if (cellViewModel.Cell.NearByMines == 0)
         {
@@ -71,12 +77,27 @@ public partial class GameViewModel : ViewModelBase
         }
     }
 
+    private void GameLost()
+    {
+        GameStatus = GameStatus.Lost;
+        var mines = CellViewModels.Where(x => x.Cell.IsMine);
+        mines.ToList().ForEach(x => x.IsRevealed = true);
+    }
+
     private CellViewModel? SelectCell(int row, int column) =>
         CellViewModels.SingleOrDefault(x => x.Cell.Row == row && x.Cell.Column == column);
 
+    private void GenerateBoard()
+    {
+        GameStatus = GameStatus.NotStarted;
+        GenerateCells(RowCount, ColumnCount);
+        PopulateMines();
+        PopulateNearbyNumbers();
+    }
+
     private void GenerateCells(int row, int column)
     {
-        var cells = new ObservableCollection<CellViewModel>();
+        var cellViewModels = new List<CellViewModel>();
 
         for (var i = 1; i <= row; i++)
         {
@@ -84,11 +105,11 @@ public partial class GameViewModel : ViewModelBase
             {
                 var leftClickCommand = new RelayCommand<CellViewModel>(CellLeftClick);
                 var rightClickCommand = new RelayCommand<CellViewModel>(CellRightClick);
-                cells.Add(new CellViewModel(i, j, leftClickCommand, rightClickCommand));
+                cellViewModels.Add(new CellViewModel(i, j, leftClickCommand, rightClickCommand));
             }
         }
 
-        CellViewModels = cells;
+        CellViewModels = new ObservableCollection<CellViewModel>(cellViewModels);
     }
 
     private void PopulateMines()
