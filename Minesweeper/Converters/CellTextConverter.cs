@@ -13,8 +13,8 @@ public class CellTextConverter : IValueConverter
         if (value is CellViewModel cellViewModel)
         {
             if (cellViewModel.IsFlag) return "F";
-            if (cellViewModel.IsMine) return "B";
-            return cellViewModel.NearByMines > 0 ? cellViewModel.NearByMines.ToString() : "";
+            if (cellViewModel.Cell.IsMine) return "B";
+            return cellViewModel.Cell.NearByMines > 0 ? cellViewModel.Cell.NearByMines.ToString() : "";
         }
         
         return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);

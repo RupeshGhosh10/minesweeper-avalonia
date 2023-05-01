@@ -13,10 +13,10 @@ public partial class GameViewModel : ViewModelBase
         RowCount = 16;
         ColumnCount = 16;
         GenerateBoard();
-        Cells = new ObservableCollection<CellViewModel>(Cells);
+        CellViewModels = new ObservableCollection<CellViewModel>(CellViewModels);
     }
 
-    [ObservableProperty] private ObservableCollection<CellViewModel> _cells;
+    [ObservableProperty] private ObservableCollection<CellViewModel> _cellViewModels;
 
     [ObservableProperty] private int _rowCount;
 
@@ -34,12 +34,12 @@ public partial class GameViewModel : ViewModelBase
 
     private void CellLeftClick(CellViewModel? cellViewModel)
     {
-        if (cellViewModel is null || cellViewModel.IsClicked || cellViewModel.IsFlag)
+        if (cellViewModel is null || cellViewModel.IsRevealed || cellViewModel.IsFlag)
             return;
 
-        cellViewModel.IsClicked = true;
+        cellViewModel.IsRevealed = true;
 
-        if (cellViewModel.NearByMines == 0)
+        if (cellViewModel.Cell.NearByMines == 0)
         {
             FloodFillCells(cellViewModel);
         }
@@ -47,7 +47,7 @@ public partial class GameViewModel : ViewModelBase
 
     private void CellRightClick(CellViewModel? cellViewModel)
     {
-        if (cellViewModel is null || cellViewModel.IsClicked)
+        if (cellViewModel is null || cellViewModel.IsRevealed)
             return;
 
         cellViewModel.IsFlag = !cellViewModel.IsFlag;
@@ -55,24 +55,24 @@ public partial class GameViewModel : ViewModelBase
 
     private void FloodFillCells(CellViewModel cellViewModel)
     {
-        var x = cellViewModel.Row;
-        var y = cellViewModel.Column;
+        var x = cellViewModel.Cell.Row;
+        var y = cellViewModel.Cell.Column;
 
         for (var i = x - 1; i <= x + 1; i++)
         {
             for (var j = y - 1; j <= y + 1; j++)
             {
-                var neighbourCell = SelectCell(i, j);
-                if (neighbourCell is { IsMine: false, IsClicked: false })
+                var neighbourCellViewModel = SelectCell(i, j);
+                if (neighbourCellViewModel is { Cell.IsMine: false, IsRevealed: false })
                 {
-                    neighbourCell.LeftClickCommand.Execute(neighbourCell);
+                    neighbourCellViewModel.LeftClickCommand.Execute(neighbourCellViewModel);
                 }
             }
         }
     }
 
     private CellViewModel? SelectCell(int row, int column) =>
-        Cells.SingleOrDefault(x => x.Row == row && x.Column == column);
+        CellViewModels.SingleOrDefault(x => x.Cell.Row == row && x.Cell.Column == column);
 
     private void GenerateCells(int row, int column)
     {
@@ -88,7 +88,7 @@ public partial class GameViewModel : ViewModelBase
             }
         }
 
-        Cells = cells;
+        CellViewModels = cells;
     }
 
     private void PopulateMines()
@@ -100,8 +100,8 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 1; j <= ColumnCount; j++)
             {
-                var cell = SelectCell(i, j)!;
-                cell.IsMine = IsMine(ref noOfMines, ref totalCells);
+                var cellViewModel = SelectCell(i, j)!;
+                cellViewModel.Cell.IsMine = IsMine(ref noOfMines, ref totalCells);
             }
         }
     }
@@ -112,8 +112,8 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 1; j <= ColumnCount; j++)
             {
-                var cell = SelectCell(i, j)!;
-                cell.NearByMines = CalculateNearbyMines(i, j);
+                var cellViewModel = SelectCell(i, j)!;
+                cellViewModel.Cell.NearByMines = CalculateNearbyMines(i, j);
             }
         }
     }
@@ -125,8 +125,8 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = y - 1; j <= y + 1; j++)
             {
-                var cell = SelectCell(i, j);
-                if (cell is not null && cell.IsMine) count += 1;
+                var cellViewModel = SelectCell(i, j);
+                if (cellViewModel is not null && cellViewModel.Cell.IsMine) count += 1;
             }
         }
 

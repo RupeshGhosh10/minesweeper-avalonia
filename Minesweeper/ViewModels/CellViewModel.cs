@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Minesweeper.Model;
 
 namespace Minesweeper.ViewModels;
 
@@ -10,25 +11,23 @@ public partial class CellViewModel : ViewModelBase
         IRelayCommand<CellViewModel> leftClickCommand,
         IRelayCommand<CellViewModel> rightClickCommand)
     {
-        Row = row;
-        Column = column;
+        Cell = new Cell
+        {
+            Row = row,
+            Column = column
+        };
+
         LeftClickCommand = leftClickCommand;
         RightClickCommand = rightClickCommand;
     }
 
-    public int Row { get; init; }
-
-    public int Column { get; init; }
-
-    public bool IsMine { get; set; }
-
-    public int NearByMines { get; set; }
+    public Cell Cell { get; init; }
 
     [ObservableProperty] private bool _isFlag;
 
-    [ObservableProperty] private bool _isClicked;
+    [ObservableProperty] private bool _isRevealed;
 
     public IRelayCommand<CellViewModel> LeftClickCommand { get; init; }
-    
+
     public IRelayCommand<CellViewModel> RightClickCommand { get; init; }
- }
+}

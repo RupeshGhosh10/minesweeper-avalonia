@@ -23,7 +23,7 @@
             Background="LightGray"
             Command="{Binding LeftClickCommand}"
             CommandParameter="{Binding}"
-            Classes.IsClicked="{Binding IsClicked}">
+            Classes.IsRevealed="{Binding IsRevealed}">
 
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter">
@@ -33,7 +33,7 @@
                     <Setter Property="BorderThickness" Value="1" />
                 </Style.Setters>
             </Style>
-            <Style Selector="Button.IsClicked /template/ ContentPresenter">
+            <Style Selector="Button.IsRevealed /template/ ContentPresenter">
                 <Style.Setters>
                     <Setter Property="Background" Value="White" />
                 </Style.Setters>
@@ -48,11 +48,10 @@
             </ia:EventTriggerBehavior>
         </i:Interaction.Behaviors>
 
-        <TextBlock IsVisible="{Binding IsClicked}"
+        <TextBlock IsVisible="{Binding IsRevealed}"
                    Text="{Binding Converter={StaticResource CellTextConverter}}"
                    FontSize="14"
-                   FontWeight="SemiBold"
-                   Classes.IsMine="{Binding IsMine}" />
+                   FontWeight="SemiBold" />
 
     </Button>
 

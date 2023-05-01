@@ -35,7 +35,7 @@
         </Grid>
         <Grid Grid.Row="1"
               Margin="10 20 10 10">
-            <ItemsControl Items="{Binding Cells}">
+            <ItemsControl Items="{Binding CellViewModels}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="{Binding RowCount}"
