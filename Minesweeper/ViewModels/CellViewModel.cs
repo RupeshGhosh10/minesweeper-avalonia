@@ -21,7 +21,7 @@ public partial class CellViewModel : ViewModelBase
         RightClickCommand = rightClickCommand;
     }
 
-    public Cell Cell { get; init; }
+    public Cell Cell { get; }
 
     [ObservableProperty] private bool _isFlag;
 

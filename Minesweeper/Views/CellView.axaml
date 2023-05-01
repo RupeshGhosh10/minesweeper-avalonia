@@ -48,10 +48,16 @@
             </ia:EventTriggerBehavior>
         </i:Interaction.Behaviors>
 
-        <TextBlock IsVisible="{Binding IsRevealed}"
-                   Text="{Binding Converter={StaticResource CellTextConverter}}"
-                   FontSize="14"
-                   FontWeight="SemiBold" />
+        <Grid>
+            <TextBlock IsVisible="{Binding IsRevealed}"
+                       Text="{Binding Converter={StaticResource CellTextConverter}}"
+                       FontSize="14"
+                       FontWeight="SemiBold" />
+            <TextBlock IsVisible="{Binding IsFlag}"
+                       Text="F"
+                       FontSize="14"
+                       FontWeight="SemiBold" />
+        </Grid>
 
     </Button>
 

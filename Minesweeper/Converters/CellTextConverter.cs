@@ -10,14 +10,12 @@ public class CellTextConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is CellViewModel cellViewModel)
-        {
-            if (cellViewModel.IsFlag) return "F";
-            if (cellViewModel.Cell.IsMine) return "B";
-            return cellViewModel.Cell.NearByMines > 0 ? cellViewModel.Cell.NearByMines.ToString() : "";
-        }
+        if (value is not CellViewModel cellViewModel)
+            return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
         
-        return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
+        if (cellViewModel.IsFlag) return "F";
+        if (cellViewModel.Cell.IsMine) return "B";
+        return cellViewModel.Cell.NearByMines > 0 ? cellViewModel.Cell.NearByMines.ToString() : "";
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
