@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <c:CellDimensionConverter x:Key="CellDimensionConverter" />
         <c:EnumConverter x:Key="EnumConverter" />
+        <c:GameOverTextConverter x:Key="GameOverTextConverter" />
         <sys:Double x:Key="BoardDimension">420</sys:Double>
     </UserControl.Resources>
 
@@ -62,19 +63,19 @@
         <Grid Grid.Row="1" Margin="10 20 10 10"
               Height="{StaticResource BoardDimension}"
               Width="{StaticResource BoardDimension}"
-              Background="GhostWhite" 
+              Background="GhostWhite"
               Opacity="0.6">
             <Grid.IsVisible>
                 <MultiBinding Converter="{x:Static BoolConverters.Or}">
-                    <Binding Path="GameStatus" 
+                    <Binding Path="GameStatus"
                              Converter="{StaticResource EnumConverter}"
-                             ConverterParameter="{x:Static enum:GameStatus.Won}"/>
-                    <Binding Path="GameStatus" 
+                             ConverterParameter="{x:Static enum:GameStatus.Won}" />
+                    <Binding Path="GameStatus"
                              Converter="{StaticResource EnumConverter}"
-                             ConverterParameter="{x:Static enum:GameStatus.Lost}"/>
+                             ConverterParameter="{x:Static enum:GameStatus.Lost}" />
                 </MultiBinding>
             </Grid.IsVisible>
-            <TextBlock Text="Game Over" 
+            <TextBlock Text="{Binding GameStatus, Converter={StaticResource GameOverTextConverter}}"
                        FontWeight="Bold"
                        FontSize="60"
                        HorizontalAlignment="Center"

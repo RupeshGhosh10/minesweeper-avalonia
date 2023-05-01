@@ -57,6 +57,12 @@ public partial class GameViewModel : ViewModelBase
             return;
 
         cellViewModel.IsFlag = !cellViewModel.IsFlag;
+
+        var minesLeft = CellViewModels.Count(x => x.Cell.IsMine && !x.IsFlag);
+        if (minesLeft == 0)
+        {
+            GameWon();
+        }
     }
 
     private void FloodFillCells(CellViewModel cellViewModel)
@@ -68,7 +74,7 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = y - 1; j <= y + 1; j++)
             {
-                var neighbourCellViewModel = SelectCell(i, j);
+                var neighbourCellViewModel = GetCellViewModel(i, j);
                 if (neighbourCellViewModel is { Cell.IsMine: false, IsRevealed: false })
                 {
                     neighbourCellViewModel.LeftClickCommand.Execute(neighbourCellViewModel);
@@ -80,11 +86,20 @@ public partial class GameViewModel : ViewModelBase
     private void GameLost()
     {
         GameStatus = GameStatus.Lost;
-        var mines = CellViewModels.Where(x => x.Cell.IsMine);
-        mines.ToList().ForEach(x => x.IsRevealed = true);
+        CellViewModels.Where(x => x.Cell.IsMine)
+            .ToList()
+            .ForEach(x => x.IsRevealed = true);
     }
 
-    private CellViewModel? SelectCell(int row, int column) =>
+    private void GameWon()
+    {
+        GameStatus = GameStatus.Won;
+        CellViewModels.Where(x => !x.Cell.IsMine)
+            .ToList()
+            .ForEach(x => x.IsRevealed = true);
+    }
+
+    private CellViewModel? GetCellViewModel(int row, int column) =>
         CellViewModels.SingleOrDefault(x => x.Cell.Row == row && x.Cell.Column == column);
 
     private void GenerateBoard()
@@ -114,14 +129,14 @@ public partial class GameViewModel : ViewModelBase
 
     private void PopulateMines()
     {
-        var noOfMines = 40;
+        var noOfMines = 3;
         var totalCells = RowCount * ColumnCount;
 
         for (var i = 1; i <= RowCount; i++)
         {
             for (var j = 1; j <= ColumnCount; j++)
             {
-                var cellViewModel = SelectCell(i, j)!;
+                var cellViewModel = GetCellViewModel(i, j)!;
                 cellViewModel.Cell.IsMine = IsMine(ref noOfMines, ref totalCells);
             }
         }
@@ -133,7 +148,7 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = 1; j <= ColumnCount; j++)
             {
-                var cellViewModel = SelectCell(i, j)!;
+                var cellViewModel = GetCellViewModel(i, j)!;
                 cellViewModel.Cell.NearByMines = CalculateNearbyMines(i, j);
             }
         }
@@ -146,7 +161,7 @@ public partial class GameViewModel : ViewModelBase
         {
             for (var j = y - 1; j <= y + 1; j++)
             {
-                var cellViewModel = SelectCell(i, j);
+                var cellViewModel = GetCellViewModel(i, j);
                 if (cellViewModel is not null && cellViewModel.Cell.IsMine) count += 1;
             }
         }
