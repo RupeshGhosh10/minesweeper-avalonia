@@ -8,7 +8,8 @@ public class EnumConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (parameter is null || value is null) return false;
+        if (parameter is null || value is null) 
+            return false;
         
         if (parameter is Enum expectedValue && value is Enum actualValue)
         {

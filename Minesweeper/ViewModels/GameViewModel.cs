@@ -16,7 +16,7 @@ public partial class GameViewModel : ViewModelBase
     {
         RowCount = 16;
         ColumnCount = 16;
-        TotalMines = 3;
+        TotalMines = 40;
         CellViewModels = new ObservableCollection<CellViewModel>();
         SetupDispatchTimer();
         GenerateBoard();
@@ -38,11 +38,14 @@ public partial class GameViewModel : ViewModelBase
 
     [ObservableProperty] private TimeSpan _timer;
 
+    [ObservableProperty] private int _flags;
+
     [RelayCommand]
     private void ResetBoard()
     {
         _dispatcherTimer.Stop();
         Timer = TimeSpan.Zero;
+        Flags = 0;
         GenerateBoard();
     }
 
@@ -91,9 +94,12 @@ public partial class GameViewModel : ViewModelBase
             return;
 
         cellViewModel.IsFlag = !cellViewModel.IsFlag;
-
-        var minesLeft = CellViewModels.Count(x => x.Cell.IsMine && !x.IsFlag);
-        if (minesLeft == 0)
+        Flags += 1;
+        
+        var areAllFlagsOnMine = CellViewModels.Where(x => x.Cell.IsMine).All(x => x.IsFlag);
+        var anyFlagNotOnMine = CellViewModels.Where(x => !x.Cell.IsMine).Any(x => x.IsFlag);
+        
+        if (areAllFlagsOnMine && !anyFlagNotOnMine)
         {
             GameWon();
         }

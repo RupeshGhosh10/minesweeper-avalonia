@@ -10,5 +10,4 @@
         Title="Minesweeper"
         Height="550" Width="480"
         CanResize="False"
-        Content="{Binding Content}">
-</Window>
+        Content="{Binding Content}" />

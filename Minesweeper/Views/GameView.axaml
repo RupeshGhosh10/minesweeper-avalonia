@@ -10,11 +10,12 @@
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="550"
              x:Class="Minesweeper.Views.GameView"
              x:DataType="vw:GameViewModel">
-    
+
     <UserControl.Resources>
         <c:CellDimensionConverter x:Key="CellDimensionConverter" />
         <c:EnumConverter x:Key="EnumConverter" />
         <c:GameOverTextConverter x:Key="GameOverTextConverter" />
+        <c:SubtractionConverter x:Key="SubtractionConverter" />
         <sys:Double x:Key="BoardDimension">440</sys:Double>
     </UserControl.Resources>
 
@@ -23,16 +24,23 @@
               Margin="0 20 0 0"
               ColumnDefinitions="*,*,*">
             <TextBlock Grid.Column="0"
-                       Text="{Binding TotalMines, StringFormat='Mines left: {0}'}"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource SubtractionConverter}" 
+                                  StringFormat='Mines Left: {0}'>
+                        <Binding Path="TotalMines" />
+                        <Binding Path="Flags" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
             <Button Grid.Column="1"
                     Content="Reset"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding ResetBoardCommand}" />
             <TextBlock Grid.Column="2"
-                       Text="{Binding Timer, StringFormat={}{0:mm}:{0:ss}}"
+                       Text="{Binding Timer, StringFormat='{}{0:mm}:{0:ss}'}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
         </Grid>
