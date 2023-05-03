@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Minesweeper.Enums;
@@ -16,26 +18,55 @@ public partial class GameViewModel : ViewModelBase
         ColumnCount = 16;
         TotalMines = 3;
         CellViewModels = new ObservableCollection<CellViewModel>();
+        SetupDispatchTimer();
         GenerateBoard();
     }
 
-    [ObservableProperty] private ObservableCollection<CellViewModel> _cellViewModels;
+    private DispatcherTimer _dispatcherTimer = null!;
+    
+    private DateTime _startTime;
 
     public int RowCount { get; init; }
 
     public int ColumnCount { get; init; }
 
     public int TotalMines { get; init; }
+    
+    [ObservableProperty] private ObservableCollection<CellViewModel> _cellViewModels;
 
     [ObservableProperty] private GameStatus _gameStatus;
 
+    [ObservableProperty] private TimeSpan _timer;
+
     [RelayCommand]
-    private void ResetBoard() => GenerateBoard();
+    private void ResetBoard()
+    {
+        _dispatcherTimer.Stop();
+        Timer = TimeSpan.Zero;
+        GenerateBoard();
+    }
+
+    private void SetupDispatchTimer()
+    {
+        Timer = TimeSpan.Zero;
+        _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Normal)
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+        _dispatcherTimer.Tick += (_, _) =>
+        {
+            Timer = _startTime - DateTime.Now;
+        };
+    }
 
     private void CellLeftClick(CellViewModel? cellViewModel)
     {
         if (GameStatus is GameStatus.NotStarted)
+        {
             GameStatus = GameStatus.InProgress;
+            _startTime = DateTime.Now;
+            _dispatcherTimer.Start();
+        }
 
         if (cellViewModel is null || cellViewModel.IsRevealed || cellViewModel.IsFlag)
             return;
@@ -89,6 +120,7 @@ public partial class GameViewModel : ViewModelBase
     private void GameLost()
     {
         GameStatus = GameStatus.Lost;
+        _dispatcherTimer.Stop();
         CellViewModels.Where(x => x.Cell.IsMine)
             .ToList()
             .ForEach(x => x.IsRevealed = true);
@@ -97,6 +129,7 @@ public partial class GameViewModel : ViewModelBase
     private void GameWon()
     {
         GameStatus = GameStatus.Won;
+        _dispatcherTimer.Stop();
         CellViewModels.Where(x => !x.Cell.IsMine)
             .ToList()
             .ForEach(x => x.IsRevealed = true);

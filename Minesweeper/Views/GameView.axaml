@@ -10,12 +10,12 @@
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="550"
              x:Class="Minesweeper.Views.GameView"
              x:DataType="vw:GameViewModel">
-
+    
     <UserControl.Resources>
         <c:CellDimensionConverter x:Key="CellDimensionConverter" />
         <c:EnumConverter x:Key="EnumConverter" />
         <c:GameOverTextConverter x:Key="GameOverTextConverter" />
-        <sys:Double x:Key="BoardDimension">420</sys:Double>
+        <sys:Double x:Key="BoardDimension">440</sys:Double>
     </UserControl.Resources>
 
     <Grid RowDefinitions="*,9*">
@@ -32,7 +32,7 @@
                     VerticalAlignment="Center"
                     Command="{Binding ResetBoardCommand}" />
             <TextBlock Grid.Column="2"
-                       Text="Timer"
+                       Text="{Binding Timer, StringFormat={}{0:mm}:{0:ss}}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center" />
         </Grid>
