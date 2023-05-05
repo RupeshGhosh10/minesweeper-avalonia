@@ -129,7 +129,11 @@ public partial class GameViewModel : ViewModelBase
         _dispatcherTimer.Stop();
         CellViewModels.Where(x => x.Cell.IsMine)
             .ToList()
-            .ForEach(x => x.IsRevealed = true);
+            .ForEach(x =>
+            {
+                x.IsFlag = false;
+                x.IsRevealed = true;
+            });
     }
 
     private void GameWon()
@@ -213,7 +217,7 @@ public partial class GameViewModel : ViewModelBase
 
     private static bool IsMine(ref int noOfMines, ref int totalCells)
     {
-        var isMine = RandomProvider.Random.Next(1, totalCells) <= noOfMines;
+        var isMine = RandomProvider.Random.Next(1, totalCells + 1) <= noOfMines;
         if (isMine) noOfMines -= 1;
         totalCells -= 1;
 

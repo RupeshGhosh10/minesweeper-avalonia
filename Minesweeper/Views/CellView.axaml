@@ -17,10 +17,10 @@
     <Button x:Name="CellButton"
             Height="{Binding $parent[UserControl].Height}"
             Width="{Binding $parent[UserControl].Width}"
-            CornerRadius="0"
-            BorderBrush="Black"
-            BorderThickness="1"
-            Background="LightGray"
+            CornerRadius="2.5"
+            BorderBrush="White"
+            BorderThickness="1.1"
+            Background="#444144"
             ToolTip.Tip="Right click to mark flag"
             ToolTip.ShowDelay="1000"
             Command="{Binding LeftClickCommand}"
@@ -30,14 +30,14 @@
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter">
                 <Style.Setters>
-                    <Setter Property="Background" Value="DarkGray" />
-                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="Background" Value="#919090" />
+                    <Setter Property="BorderBrush" Value="White" />
                     <Setter Property="BorderThickness" Value="1" />
                 </Style.Setters>
             </Style>
             <Style Selector="Button.IsRevealed /template/ ContentPresenter">
                 <Style.Setters>
-                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Background" Value="#d6d2cf" />
                 </Style.Setters>
             </Style>
         </Button.Styles>
@@ -51,14 +51,18 @@
         </i:Interaction.Behaviors>
 
         <Grid>
-            <TextBlock IsVisible="{Binding IsRevealed}"
-                       Text="{Binding Cell, Converter={StaticResource CellTextConverter}}"
-                       FontSize="14"
-                       FontWeight="SemiBold" />
-            <TextBlock IsVisible="{Binding IsFlag}"
-                       Text="F"
-                       FontSize="14"
-                       FontWeight="SemiBold" />
+            <Grid IsVisible="{Binding IsRevealed}">
+                <TextBlock Text="{Binding Cell, Converter={StaticResource CellTextConverter}}"
+                           IsVisible="{Binding !Cell.IsMine}"
+                           FontSize="16"
+                           FontWeight="SemiBold" />
+                <Svg Path="../Assets/mine.svg"
+                     IsVisible="{Binding Cell.IsMine}"
+                     Width="22" Height="22" />
+            </Grid>
+            <Svg Path="../Assets/flag.svg"
+                 IsVisible="{Binding IsFlag}"
+                 Width="22" Height="22" />
         </Grid>
 
     </Button>

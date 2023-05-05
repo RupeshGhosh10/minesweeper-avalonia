@@ -16,7 +16,7 @@
         <c:EnumConverter x:Key="EnumConverter" />
         <c:GameOverTextConverter x:Key="GameOverTextConverter" />
         <c:SubtractionConverter x:Key="SubtractionConverter" />
-        <sys:Double x:Key="BoardDimension">440</sys:Double>
+        <sys:Double x:Key="BoardDimension">460</sys:Double>
     </UserControl.Resources>
 
     <Grid RowDefinitions="*,9*">

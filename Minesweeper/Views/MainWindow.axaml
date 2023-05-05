@@ -8,6 +8,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Minesweeper"
-        Height="550" Width="480"
+        ExtendClientAreaToDecorationsHint="True"
+        Height="550" Width="490"
         CanResize="False"
         Content="{Binding Content}" />
