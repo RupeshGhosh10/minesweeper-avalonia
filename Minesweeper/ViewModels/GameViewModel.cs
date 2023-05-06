@@ -94,7 +94,7 @@ public partial class GameViewModel : ViewModelBase
             return;
 
         cellViewModel.IsFlag = !cellViewModel.IsFlag;
-        Flags += 1;
+        Flags += cellViewModel.IsFlag ? 1 : -1;
         
         var areAllFlagsOnMine = CellViewModels.Where(x => x.Cell.IsMine).All(x => x.IsFlag);
         var anyFlagNotOnMine = CellViewModels.Where(x => !x.Cell.IsMine).Any(x => x.IsFlag);
