@@ -12,7 +12,7 @@ public class CellTextConverter : IValueConverter
     {
         if (value is Cell cell)
         {
-            return cell.IsMine ? "B" : cell.NearByMines > 0 ? cell.NearByMines.ToString() : "";
+            return cell.NearByMines > 0 ? cell.NearByMines.ToString() : "";
         }
 
         return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
